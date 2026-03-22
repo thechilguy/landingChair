@@ -29,6 +29,12 @@ export default function NavCircle({
   useEffect(() => {
     if (!circleRef.current || !dotRef.current) return;
 
+    gsap.killTweensOf(circleRef.current);
+    gsap.killTweensOf(dotRef.current);
+    gsap.killTweensOf(labelTextRef.current);
+    gsap.killTweensOf(line1Ref.current);
+    gsap.killTweensOf(line2Ref.current);
+
     const color = currentSection === 0 ? "#111111" : "#ffffff";
 
     gsap.to(circleRef.current, {
