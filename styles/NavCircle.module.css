@@ -1,0 +1,69 @@
+.wrapper {
+  /* CALIBRATION CONTROLS */
+  --dot-top: 15%; /* dot vertical position on circle */
+  --dot-left: 14%; /* dot horizontal position on circle */
+
+  --label-bottom: 90%; /* label distance above dot */
+  --label-right: 50%; /* label horizontal offset from dot */
+
+  --shelf-width: 80px; /* combined shelf SVG width */
+  --shelf-height: 50px; /* combined shelf SVG height */
+
+  --circle-offset-right: -200px; /* how much circle is hidden off screen */
+
+  position: fixed;
+  right: var(--circle-offset-right);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  height: 340px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50%;
+  top: var(--dot-top);
+  left: var(--dot-left);
+  transform: translate(-50%, -50%);
+}
+
+.labelWrapper {
+  position: absolute;
+  bottom: var(--label-bottom);
+  right: var(--label-right);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.labelText {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: sans-serif;
+  color: inherit;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.shelfLine {
+  width: var(--shelf-width);
+  height: var(--shelf-height);
+  color: inherit;
+  display: block;
+  transform-origin: right center;
+}
