@@ -40,7 +40,8 @@ export default function ChairModel({ mouseRef }: ChairModelProps) {
   const progress = useRef(0);
 
   // Final responsive scale — 0.27 * 1.3 adds an additional 30% on top of the previous increase
-  const finalScale = Math.min(viewport.width, viewport.height) * 0.27 * 1.3;
+  const finalScale =
+    Math.min(viewport.width, viewport.height) * 0.27 * 1.3 * 1.5;
 
   // Base Y rotation (35°) — mouse parallax is applied as an offset on top of this
   const BASE_ROTATION_Y = -35 * (Math.PI / 180);
@@ -58,7 +59,7 @@ export default function ChairModel({ mouseRef }: ChairModelProps) {
     groupRef.current.scale.setScalar(finalScale * Math.max(ease, 0.001));
 
     // Animate Y position from -2 to -1
-    groupRef.current.position.y = -2 + 1 * ease;
+    groupRef.current.position.y = -2 + 1.35 * ease;
 
     // --- Mouse parallax ---
     // Read the latest mouse coords from the ref each frame (no re-render cost)
@@ -78,7 +79,7 @@ export default function ChairModel({ mouseRef }: ChairModelProps) {
 
   return (
     // Initial scale near-zero and position below center; useFrame animates both
-    <group ref={groupRef} scale={0.001} position={[0, -0.3, 0]}>
+    <group ref={groupRef} scale={0.001} position={[0.08, -0.2, 0]}>
       <primitive object={scene} />
     </group>
   );
