@@ -20,6 +20,7 @@
   align-items: center;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .category {
@@ -38,6 +39,19 @@
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  gap: 0.2em;
+}
+
+.titleTop {
+  display: inline-block;
+  will-change: transform;
+}
+
+.titleBottom {
+  display: inline-block;
+  will-change: transform;
 }
 
 .content {

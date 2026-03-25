@@ -2,12 +2,34 @@
 
 import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
+import gsap from "gsap";
 import ChairModel from "./ChairModel";
 import styles from "../styles/Hero.module.css";
 
 export default function Hero() {
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const modernifyRef = useRef<HTMLSpanElement>(null);
+  const chairRef = useRef<HTMLSpanElement>(null);
+  const fornitureRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      modernifyRef.current,
+      { y: "100%", opacity: 0 },
+      { y: "0%", opacity: 1, duration: 1.8, ease: "power4.out", delay: 0.5 },
+    );
+    gsap.fromTo(
+      chairRef.current,
+      { y: "-100%", opacity: 0 },
+      { y: "0%", opacity: 1, duration: 1.8, ease: "power4.out", delay: 0.8 },
+    );
+    gsap.fromTo(
+      fornitureRef.current,
+      { x: "-100%", opacity: 0 },
+      { x: "0%", opacity: 1, duration: 1.4, ease: "power4.out", delay: 1.4 },
+    );
+  }, []);
 
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
@@ -21,8 +43,15 @@ export default function Hero() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.heading}>
-        <span className={styles.category}>FORNITURE</span>
-        <h1 className={styles.title}>MODERNIFY CHAIR</h1>
+        <span ref={fornitureRef} className={styles.category}>FORNITURE</span>
+        <h1 className={styles.title}>
+          <span ref={modernifyRef} className={styles.titleTop}>
+            MODERNIFY
+          </span>
+          <span ref={chairRef} className={styles.titleBottom}>
+            CHAIR
+          </span>
+        </h1>
       </div>
       <div className={styles.content}>
         <div className={styles.leftwrapper}>

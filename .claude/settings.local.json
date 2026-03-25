@@ -5,7 +5,8 @@
       "Bash(git commit:*)",
       "Bash(npm run:*)",
       "Bash(git -C D:/project/chair add .)",
-      "Bash(git -C D:/project/chair status)"
+      "Bash(git -C D:/project/chair status)",
+      "Bash(git:*)"
     ]
   }
 }
