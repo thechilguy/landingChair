@@ -142,4 +142,5 @@
   position: relative;
   overflow: hidden;
   z-index: 3;
+  opacity: 0; /* initial state before GSAP kicks in */
 }
