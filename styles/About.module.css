@@ -29,7 +29,12 @@
   align-self: flex-end;
 }
 
-.bgWord {
+.bgWordWrap {
+  display: flex;
+}
+
+.bgWordMod,
+.bgWordErn {
   font-family: var(--font-passion-one), sans-serif;
   font-size: clamp(120px, 18vw, 480px);
   font-weight: 800;
@@ -39,6 +44,21 @@
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
+  transform: scaleX(1);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bgWordMod {
+  transform-origin: left center;
+}
+
+.bgWordErn {
+  transform-origin: right center;
+}
+
+.bgWordMod.active,
+.bgWordErn.active {
+  transform: scaleX(0.7);
 }
 
 .title {
@@ -58,7 +78,7 @@
 .chair {
   position: absolute;
   bottom: 47.9%;
-  left: 50%;
+  left: 51.5%;
   transform: translateX(-50%);
 }
 .chairImg {
