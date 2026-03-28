@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.swatches {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+  transition:
+    outline-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.08);
+}
+
+.swatch.active {
+  outline-color: #111;
+}
+
+.canvasWrap {
+  width: 600px;
+  height: 100%;
+}

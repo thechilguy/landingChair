@@ -184,6 +184,7 @@ export default function Hero() {
               shadow-camera-left={-6}
               shadow-camera-right={6}
               shadow-camera-top={6}
+              теп
               shadow-camera-bottom={-6}
             />
             <directionalLight position={[-5, 3, -5]} intensity={2} />

@@ -35,10 +35,11 @@ export default function NavCircle({
     gsap.killTweensOf(line1Ref.current);
     gsap.killTweensOf(line2Ref.current);
 
-    const color = currentSection === 0 ? "#111111" : "#ffffff";
+    const darkSections = [0, 2]; // Hero, Overview — light backgrounds
+    const color = darkSections.includes(currentSection) ? "#111111" : "#ffffff";
 
     gsap.to(circleRef.current, {
-      rotation: currentSection === 0 ? 0 : 360,
+      rotation: darkSections.includes(currentSection) ? 0 : 360,
       borderColor: color,
       color,
       duration: 0.9,
