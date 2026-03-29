@@ -68,6 +68,19 @@
   gap: 0.4rem;
 }
 
+.rightColAnimated .viewItem {
+  opacity: 0.5;
+  transition: opacity 0.25s;
+}
+
+.rightColAnimated .viewItemActive {
+  opacity: 1;
+}
+
+.viewItemActive img {
+  filter: brightness(1.15);
+}
+
 .viewLabel {
   font-family: var(--font-jura), sans-serif;
   font-size: clamp(10px, 0.8vw, 12px);

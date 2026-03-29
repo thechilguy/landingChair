@@ -1,11 +1,19 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import ChairModelColored from "./ChairModelColored";
 import styles from "../styles/OverviewCanvas.module.css";
+
+// ── підбери кути тут (в радіанах) ──────────────────────────────────────────
+const VIEW_ANGLES = {
+  front: 0,
+  right: Math.PI / 2,
+  left:  -Math.PI / 2,
+};
+// ───────────────────────────────────────────────────────────────────────────
 
 const COLORS = [
   { hex: "#1c1c1c", label: "Graphite" },
@@ -13,8 +21,64 @@ const COLORS = [
   { hex: "#2c3e6b", label: "Navy" },
 ];
 
-export default function OverviewCanvas() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function CameraAnimator({ targetAzimuth, controlsRef }: { targetAzimuth: number; controlsRef: React.MutableRefObject<any> }) {
+  const targetRef  = useRef(targetAzimuth);
+  const animating  = useRef(false);
+
+  useEffect(() => {
+    targetRef.current = targetAzimuth;
+    animating.current = true;
+    if (controlsRef.current) controlsRef.current.enabled = false;
+  }, [targetAzimuth, controlsRef]);
+
+  useFrame(() => {
+    if (!animating.current || !controlsRef.current) return;
+
+    const controls = controlsRef.current;
+    const cam    = controls.object as THREE.Camera;
+    const tgt    = controls.target as THREE.Vector3;
+
+    const dx = cam.position.x - tgt.x;
+    const dy = cam.position.y - tgt.y;
+    const dz = cam.position.z - tgt.z;
+    const radius = Math.sqrt(dx * dx + dy * dy + dz * dz);
+    if (radius === 0) return;
+
+    const currentAzimuth = Math.atan2(dx, dz);
+    const polar = Math.acos(THREE.MathUtils.clamp(dy / radius, -1, 1));
+
+    let diff = targetRef.current - currentAzimuth;
+    while (diff >  Math.PI) diff -= 2 * Math.PI;
+    while (diff < -Math.PI) diff += 2 * Math.PI;
+
+    if (Math.abs(diff) < 0.004) {
+      animating.current = false;
+      controls.enabled  = true;
+      return;
+    }
+
+    const newAzimuth = currentAzimuth + diff * 0.08;
+    cam.position.set(
+      tgt.x + radius * Math.sin(polar) * Math.sin(newAzimuth),
+      tgt.y + radius * Math.cos(polar),
+      tgt.z + radius * Math.sin(polar) * Math.cos(newAzimuth)
+    );
+    cam.lookAt(tgt);
+  });
+
+  return null;
+}
+
+interface OverviewCanvasProps {
+  targetView?: string;
+}
+
+export default function OverviewCanvas({ targetView = "front" }: OverviewCanvasProps) {
   const [activeColor, setActiveColor] = useState(COLORS[0].hex);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const controlsRef = useRef<any>(null);
+  const targetAzimuth = VIEW_ANGLES[targetView as keyof typeof VIEW_ANGLES] ?? 0;
 
   return (
     <div className={styles.wrapper}>
@@ -39,6 +103,7 @@ export default function OverviewCanvas() {
             gl={{ alpha: true, antialias: true }}
           >
             <OrbitControls
+              ref={controlsRef}
               enableZoom={false}
               enablePan={false}
               mouseButtons={{
@@ -51,6 +116,7 @@ export default function OverviewCanvas() {
                 TWO: undefined,
               }}
             />
+            <CameraAnimator targetAzimuth={targetAzimuth} controlsRef={controlsRef} />
             <ambientLight intensity={2.5} />
             <directionalLight position={[3, 4, 2]} intensity={2.4} />
             <directionalLight position={[-2, -1, -2]} intensity={0.6} />
