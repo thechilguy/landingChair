@@ -23,8 +23,13 @@ export default function SmoothScroll({ children, onSectionChange }: SmoothScroll
     sections.forEach((section, i) => {
       section.style.position = 'absolute'
       section.style.width = '100%'
-      section.style.height = '100vh'
       section.style.top = i === 0 ? '0' : '100vh'
+      if (i === sections.length - 1) {
+        section.style.height = '100vh'
+        section.style.overflowY = 'scroll'
+      } else {
+        section.style.height = '100vh'
+      }
     })
 
     function scrollToNext() {
@@ -70,11 +75,20 @@ export default function SmoothScroll({ children, onSectionChange }: SmoothScroll
 
     function handleWheel(e: WheelEvent) {
       e.preventDefault()
-      if (e.deltaY > 0) {
-        scrollToNext()
-      } else {
-        scrollToPrev()
+      const isLast = currentSection.current === sections.length - 1
+      if (isLast) {
+        const section = sections[currentSection.current]
+        const atTop = section.scrollTop <= 0
+        if (e.deltaY < 0 && atTop) {
+          scrollToPrev()
+          return
+        }
+        // вручну скролимо секцію — wheel йде на main-container, не на section
+        section.scrollTop += e.deltaY
+        return
       }
+      if (e.deltaY > 0) scrollToNext()
+      else scrollToPrev()
     }
 
     let touchStartY = 0
@@ -84,13 +98,17 @@ export default function SmoothScroll({ children, onSectionChange }: SmoothScroll
     }
 
     function handleTouchEnd(e: TouchEvent) {
+      const isLast = currentSection.current === sections.length - 1
       const delta = touchStartY - e.changedTouches[0].clientY
       if (Math.abs(delta) < 30) return
-      if (delta > 0) {
-        scrollToNext()
-      } else {
-        scrollToPrev()
+      if (isLast) {
+        const section = sections[currentSection.current]
+        if (delta < 0 && section.scrollTop <= 0) scrollToPrev()
+        // інакше нативний тач-скрол всередині
+        return
       }
+      if (delta > 0) scrollToNext()
+      else scrollToPrev()
     }
 
     container.addEventListener('wheel', handleWheel, { passive: false })

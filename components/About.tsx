@@ -35,7 +35,7 @@ export default function About() {
     gsap.fromTo(
       chairInnerRef.current,
       { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", delay: 1.2 },
+      { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.4 },
     );
   }, [isVisible]);
 
