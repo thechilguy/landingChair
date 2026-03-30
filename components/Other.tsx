@@ -34,19 +34,19 @@ export default function Other() {
     if (!inner || !panel) return;
 
     // 1. expand the card
-    gsap.to(inner, { width: targetWidth, duration: 0.75, ease: "power3.out" });
+    gsap.fromTo(inner,
+      { width: Math.min(480, window.innerWidth * 0.8) },
+      { width: targetWidth, duration: 0.75, ease: "power3.out" },
+    );
 
     // 2. stagger-animate each child of the text panel
     if (targetWidth - imageWidth > 100) {
       const items = Array.from(panel.children) as HTMLElement[];
-      gsap.to(items, {
-        opacity: 1,
-        y: 0,
-        duration: 0.55,
-        stagger: 0.12,
-        delay: 0.4,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.12, delay: 0.4, ease: "power3.out" },
+      );
     }
   }
 
@@ -61,22 +61,9 @@ export default function Other() {
 
     spacer.style.height = `${numCards * vh}px`;
 
-    // set initial collapsed width
-    const imageWidth = Math.min(480, window.innerWidth * 0.8);
-    innerRefs.current.forEach((el) => {
-      if (el) el.style.width = `${imageWidth}px`;
-    });
-
-    // set initial state for all text panel children (hidden, shifted down)
-    textRefs.current.forEach((panel) => {
-      if (!panel) return;
-      gsap.set(Array.from(panel.children), { opacity: 0, y: 24 });
-    });
-
     const cardEls = Array.from(holder.children) as HTMLElement[];
 
-    // delay lets the browser paint the initial state before animating
-    gsap.delayedCall(0.2, () => expandCard(0));
+    gsap.delayedCall(0.1, () => expandCard(0));
 
     function onScroll() {
       const st = section!.scrollTop;

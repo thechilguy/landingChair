@@ -25,8 +25,9 @@
   background: #0a0a0a;
 }
 
-/* width is set + animated in JS; overflow:hidden clips the expanding edge cleanly */
+/* initial width matches imageWidth; JS animates it wider */
 .cardInner {
+  width: min(480px, 80vw);
   height: 68vh;
   border-radius: 18px;
   overflow: hidden;
@@ -75,7 +76,12 @@
   margin: 0;
 }
 
-/* text side — children revealed via GSAP stagger */
+/* text side — children start hidden from first render, GSAP animates them in */
+.cardTextPanel > * {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
 .cardTextPanel {
   flex: 1;
   background: #111111;
