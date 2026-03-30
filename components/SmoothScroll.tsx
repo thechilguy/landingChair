@@ -76,12 +76,15 @@ export default function SmoothScroll({ children, onSectionChange }: SmoothScroll
           return
         }
 
+        // don't touch scrollTop while a section transition is running
+        if (isAnimating.current) return
+
         targetScroll.current = Math.max(0, Math.min(maxScroll, targetScroll.current + e.deltaY))
         gsap.to(section, {
           scrollTop: targetScroll.current,
           duration:  0.8,
           ease:      'power3.out',
-          overwrite: true,
+          overwrite: 'auto', // only kills conflicting scrollTop tweens, not the section-transition top tween
         })
         return
       }
