@@ -6,9 +6,9 @@ import styles from "@/styles/Other.module.css";
 import Contact from "@/components/Contact";
 
 const CARDS = [
-  { id: 1, label: "quiet control", title: "Signal Drift", img: "/img/chair1.jpg" },
-  { id: 2, label: "clean form",    title: "Void Frame",   img: "/img/chair2.jpg" },
-  { id: 3, label: "raw edge",      title: "Hard Line",    img: "/img/chair3.jpg" },
+  { id: 1, label: "quiet control", title: "Signal Drift", index: "01", heading: "Form meets silence", img: "/img/chair1.jpg" },
+  { id: 2, label: "clean form",    title: "Void Frame",   index: "02", heading: "Negative space",    img: "/img/chair2.jpg" },
+  { id: 3, label: "raw edge",      title: "Hard Line",    index: "03", heading: "Brutal precision",  img: "/img/chair3.jpg" },
 ];
 
 const LOREM =
@@ -30,18 +30,23 @@ export default function Other() {
     const imageWidth  = Math.min(480, vw * 0.8);
     const targetWidth = Math.min(880, vw * 0.92);
     const inner       = innerRefs.current[i];
-    const text        = textRefs.current[i];
-    if (!inner || !text) return;
+    const panel       = textRefs.current[i];
+    if (!inner || !panel) return;
 
+    // 1. expand the card
     gsap.to(inner, { width: targetWidth, duration: 0.75, ease: "power3.out" });
 
-    // reveal text only if there is enough room
+    // 2. stagger-animate each child of the text panel
     if (targetWidth - imageWidth > 100) {
-      gsap.fromTo(
-        text,
-        { opacity: 0, x: 28 },
-        { opacity: 1, x: 0, duration: 0.6, delay: 0.4, ease: "power3.out" },
-      );
+      const items = Array.from(panel.children) as HTMLElement[];
+      gsap.to(items, {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        stagger: 0.12,
+        delay: 0.4,
+        ease: "power3.out",
+      });
     }
   }
 
@@ -56,15 +61,20 @@ export default function Other() {
 
     spacer.style.height = `${(numCards + 1) * vh}px`;
 
-    // set initial (collapsed) width for every cardInner
+    // set initial collapsed width
     const imageWidth = Math.min(480, window.innerWidth * 0.8);
     innerRefs.current.forEach((el) => {
       if (el) el.style.width = `${imageWidth}px`;
     });
 
+    // set initial state for all text panel children (hidden, shifted down)
+    textRefs.current.forEach((panel) => {
+      if (!panel) return;
+      gsap.set(Array.from(panel.children), { opacity: 0, y: 24 });
+    });
+
     const cardEls = Array.from(holder.children) as HTMLElement[];
 
-    // first card expands on mount
     expandCard(0);
 
     function onScroll() {
@@ -77,7 +87,6 @@ export default function Other() {
         const progress = Math.max(0, Math.min(1, (st - start) / vh));
         gsap.set(card, { y: -progress * vh });
 
-        // when a card starts sliding away, expand the one underneath
         if (progress > 0.05 && i + 1 < numCards) {
           expandCard(i + 1);
         }
@@ -114,11 +123,13 @@ export default function Other() {
                   </div>
                 </div>
 
-                {/* right — text (hidden until expansion) */}
+                {/* right — text panel, children animated individually */}
                 <div
                   ref={(el) => { textRefs.current[i] = el; }}
                   className={styles.cardTextPanel}
                 >
+                  <span className={styles.cardIndex}>{card.index}</span>
+                  <h3 className={styles.cardHeading}>{card.heading}</h3>
                   <p className={styles.cardText}>{LOREM}</p>
                 </div>
               </div>

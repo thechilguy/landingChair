@@ -87,7 +87,7 @@
   margin: 0;
 }
 
-/* text side — revealed by the expansion */
+/* text side — children revealed via GSAP stagger */
 .cardTextPanel {
   flex: 1;
   background: #111111;
@@ -95,14 +95,33 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  opacity: 0; /* GSAP animates to 1 */
+  gap: 0.9rem;
+}
+
+/* index number, e.g. "01" */
+.cardIndex {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(11px, 0.9vw, 15px);
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.cardHeading {
+  font-family: var(--font-bebas-neue), sans-serif;
+  font-size: clamp(24px, 2.8vw, 46px);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 0;
 }
 
 .cardText {
   font-family: var(--font-jura), sans-serif;
-  font-size: clamp(13px, 1.1vw, 17px);
-  color: rgba(255, 255, 255, 0.5);
+  font-size: clamp(12px, 1vw, 16px);
+  color: rgba(255, 255, 255, 0.45);
   line-height: 1.75;
   margin: 0;
-  max-width: 36ch;
+  max-width: 32ch;
 }
