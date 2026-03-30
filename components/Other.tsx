@@ -63,7 +63,17 @@ export default function Other() {
 
     const cardEls = Array.from(holder.children) as HTMLElement[];
 
-    gsap.delayedCall(0.1, () => expandCard(0));
+    // fire first-card animation only when the section enters the viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          gsap.delayedCall(0.1, () => expandCard(0));
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(section);
 
     function onScroll() {
       const st = section!.scrollTop;
@@ -82,7 +92,10 @@ export default function Other() {
     }
 
     section.addEventListener("scroll", onScroll, { passive: true });
-    return () => section.removeEventListener("scroll", onScroll);
+    return () => {
+      section.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
