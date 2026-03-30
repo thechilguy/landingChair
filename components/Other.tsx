@@ -59,7 +59,7 @@ export default function Other() {
     const vh       = window.innerHeight;
     const numCards = CARDS.length;
 
-    spacer.style.height = `${(numCards + 1) * vh}px`;
+    spacer.style.height = `${numCards * vh}px`;
 
     // set initial collapsed width
     const imageWidth = Math.min(480, window.innerWidth * 0.8);
@@ -83,7 +83,7 @@ export default function Other() {
       cardEls.forEach((card, i) => {
         if (i === numCards - 1) return;
 
-        const start    = vh + i * vh;
+        const start    = i * vh;
         const progress = Math.max(0, Math.min(1, (st - start) / vh));
         gsap.set(card, { y: -progress * vh });
 
@@ -99,8 +99,6 @@ export default function Other() {
 
   return (
     <section ref={sectionRef} className={styles.section}>
-
-      <div className={styles.intro}>Enter the Frame</div>
 
       <div ref={spacerRef} className={styles.spacer}>
         <div ref={holderRef} className={styles.holder}>
