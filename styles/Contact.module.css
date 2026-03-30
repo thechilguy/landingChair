@@ -31,6 +31,14 @@
   margin: 0;
 }
 
+.titleLine {
+  display: block;
+}
+
+.titleLetter {
+  display: inline-block;
+}
+
 .email {
   font-family: var(--font-jura), sans-serif;
   font-size: clamp(14px, 1.4vw, 22px);
