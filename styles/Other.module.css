@@ -28,7 +28,7 @@
 /* initial width matches imageWidth; JS animates it wider */
 .cardInner {
   width: min(480px, 80vw);
-  height: 68vh;
+  height: 86vh;
   border-radius: 18px;
   overflow: hidden;
   display: flex;
