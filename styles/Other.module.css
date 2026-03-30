@@ -1,7 +1,6 @@
 .section {
   width: 100%;
   background: #0a0a0a;
-  /* без flex — він заважає sticky в нащадках */
 }
 
 .intro {
@@ -16,22 +15,19 @@
   letter-spacing: 0.02em;
 }
 
-/* spacer — просто висота для скролу, задається з JS */
 .spacer {
   position: relative;
   width: 100%;
 }
 
-/* holder стікає всередині spacer */
 .holder {
   position: sticky;
   top: 0;
   height: 100vh;
   width: 100%;
-  overflow: hidden; /* ріже картку що виїхала вгору */
+  overflow: hidden;
 }
 
-/* кожна картка — абсолютно поверх попередньої */
 .card {
   position: absolute;
   inset: 0;
@@ -41,11 +37,18 @@
   background: #0a0a0a;
 }
 
+/* width is set + animated in JS; overflow:hidden clips the expanding edge cleanly */
 .cardInner {
-  width: min(480px, 80vw);
   height: 68vh;
   border-radius: 18px;
   overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+/* image side — fixed width, does not shrink */
+.cardImageWrap {
+  flex: 0 0 min(480px, 80vw);
   position: relative;
 }
 
@@ -82,4 +85,24 @@
   letter-spacing: 0.02em;
   line-height: 1;
   margin: 0;
+}
+
+/* text side — revealed by the expansion */
+.cardTextPanel {
+  flex: 1;
+  background: #111111;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0; /* GSAP animates to 1 */
+}
+
+.cardText {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(13px, 1.1vw, 17px);
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 36ch;
 }
