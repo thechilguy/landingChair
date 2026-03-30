@@ -24,16 +24,16 @@ export default function Contact() {
         if (!entries[0].isIntersecting) return
         observer.disconnect()
 
-        // label slides in left→right (one element, fast)
-        gsap.to(label, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
+        // label slides in
+        gsap.to(label, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
 
         // title letters stagger in
         gsap.to(letters, {
           opacity: 1,
           y: 0,
-          duration: 0.45,
-          stagger: 0.03,
-          delay: 0.2,
+          duration: 0.6,
+          stagger: 0.05,
+          delay: 0.35,
           ease: 'power3.out',
         })
       },
