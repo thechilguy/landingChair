@@ -75,7 +75,8 @@ export default function Other() {
 
     const cardEls = Array.from(holder.children) as HTMLElement[];
 
-    expandCard(0);
+    // delay lets the browser paint the initial state before animating
+    gsap.delayedCall(0.2, () => expandCard(0));
 
     function onScroll() {
       const st = section!.scrollTop;
