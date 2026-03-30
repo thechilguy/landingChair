@@ -112,6 +112,17 @@ export default function Hero() {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.topVignette} />
+      <div className={styles.stripes} />
+      <span className={styles.watermark}>CHAIR</span>
+      <div className={styles.editorialTopLeft}>
+        <span>Collection No.01</span>
+        <span>SS 2025</span>
+      </div>
+      <div className={styles.editorialTopRight}>
+        <span>Modernify Studio</span>
+        <span>Est. 2024</span>
+      </div>
       <div className={styles.heading}>
         <span ref={fornitureRef} className={styles.category}>
           FORNITURE
