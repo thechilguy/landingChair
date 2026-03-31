@@ -78,7 +78,7 @@ export default function Hero() {
       },
     );
     gsap.fromTo(
-      priceRef.current?.querySelectorAll(`.${styles.priceChar}`),
+      priceRef.current?.querySelectorAll(`.${styles.priceChar}`) ?? [],
       { opacity: 0, y: "10px" },
       {
         opacity: 1,
