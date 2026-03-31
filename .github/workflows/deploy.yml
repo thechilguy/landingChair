@@ -27,6 +27,11 @@ jobs:
 
       - name: Build
         run: npx next build --webpack
+        env:
+          NEXT_TURBOPACK: "0"
+
+      - name: Check build output
+        run: ls -la out
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
