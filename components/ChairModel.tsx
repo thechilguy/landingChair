@@ -6,7 +6,7 @@ import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Preload the model so it's ready before the Suspense boundary resolves
-useGLTF.preload("/chair3.glb");
+useGLTF.preload(`${process.env.NEXT_PUBLIC_BASE_PATH}/chair3.glb`);
 
 interface ChairModelProps {
   // Mutable ref so Hero can update mouse coords without causing re-renders
@@ -14,7 +14,7 @@ interface ChairModelProps {
 }
 
 export default function ChairModel({ mouseRef }: ChairModelProps) {
-  const { scene } = useGLTF("/chair3.glb");
+  const { scene } = useGLTF(`${process.env.NEXT_PUBLIC_BASE_PATH}/chair3.glb`);
   const { viewport } = useThree();
   const groupRef = useRef<THREE.Group>(null);
 

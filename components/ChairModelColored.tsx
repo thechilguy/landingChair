@@ -5,14 +5,14 @@ import { useGLTF } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-useGLTF.preload("/chair3.glb");
+useGLTF.preload(`${process.env.NEXT_PUBLIC_BASE_PATH}/chair3.glb`);
 
 interface ChairModelColoredProps {
   color: string;
 }
 
 export default function ChairModelColored({ color }: ChairModelColoredProps) {
-  const { scene } = useGLTF("/chair3.glb");
+  const { scene } = useGLTF(`${process.env.NEXT_PUBLIC_BASE_PATH}/chair3.glb`);
   const { viewport } = useThree();
   const groupRef = useRef<THREE.Group>(null);
 

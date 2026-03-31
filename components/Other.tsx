@@ -6,9 +6,9 @@ import styles from "@/styles/Other.module.css";
 import Contact from "@/components/Contact";
 
 const CARDS = [
-  { id: 1, label: "quiet control", title: "Signal Drift", index: "01", heading: "Form meets silence", img: "/img/chair1.jpg" },
-  { id: 2, label: "clean form",    title: "Void Frame",   index: "02", heading: "Negative space",    img: "/img/chair2.jpg" },
-  { id: 3, label: "raw edge",      title: "Hard Line",    index: "03", heading: "Brutal precision",  img: "/img/chair3.jpg" },
+  { id: 1, label: "quiet control", title: "Signal Drift", index: "01", heading: "Form meets silence", img: `${process.env.NEXT_PUBLIC_BASE_PATH}/img/chair1.jpg` },
+  { id: 2, label: "clean form",    title: "Void Frame",   index: "02", heading: "Negative space",    img: `${process.env.NEXT_PUBLIC_BASE_PATH}/img/chair2.jpg` },
+  { id: 3, label: "raw edge",      title: "Hard Line",    index: "03", heading: "Brutal precision",  img: `${process.env.NEXT_PUBLIC_BASE_PATH}/img/chair3.jpg` },
 ];
 
 const LOREM =

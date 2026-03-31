@@ -61,8 +61,8 @@ const ChairSpecs = forwardRef<ChairSpecsHandle, ChairSpecsProps>(
 
         <div className={styles.rightCol} ref={rightColRef}>
           {[
-            { src: "/rightView.svg", alt: "right view", key: "right" },
-            { src: "/leftView.svg", alt: "left view", key: "left" },
+            { src: `${process.env.NEXT_PUBLIC_BASE_PATH}/rightView.svg`, alt: "right view", key: "right" },
+            { src: `${process.env.NEXT_PUBLIC_BASE_PATH}/leftView.svg`, alt: "left view", key: "left" },
           ].map((v) => (
             <div
               key={v.alt}
@@ -81,7 +81,7 @@ const ChairSpecs = forwardRef<ChairSpecsHandle, ChairSpecsProps>(
             style={{ cursor: "pointer" }}
           >
             <Image
-              src="/frontView.svg"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH}/frontView.svg`}
               alt="front view"
               width={170}
               height={170}
