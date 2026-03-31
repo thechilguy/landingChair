@@ -1,0 +1,133 @@
+.section {
+  width: 100%;
+  background: #0a0a0a;
+}
+
+.spacer {
+  position: relative;
+  width: 100%;
+}
+
+.holder {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.holder::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(to top, #0a0a0a 20%, transparent);
+  pointer-events: none;
+  z-index: 99;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+}
+
+/* initial width matches imageWidth; JS animates it wider */
+.cardInner {
+  width: min(480px, 80vw);
+  height: 86vh;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+/* image side — fixed width, does not shrink */
+.cardImageWrap {
+  flex: 0 0 min(480px, 80vw);
+  position: relative;
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cardLabel {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(12px, 1.1vw, 20px);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.cardTitle {
+  font-family: var(--font-bebas-neue), sans-serif;
+  font-size: clamp(32px, 4.5vw, 72px);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 0;
+}
+
+/* text side — children start hidden from first render, GSAP animates them in */
+.cardTextPanel > * {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.cardTextPanel {
+  flex: 1;
+  background: #111111;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.9rem;
+}
+
+/* index number, e.g. "01" */
+.cardIndex {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(11px, 0.9vw, 15px);
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.cardHeading {
+  font-family: var(--font-bebas-neue), sans-serif;
+  font-size: clamp(24px, 2.8vw, 46px);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 0;
+}
+
+.cardText {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(12px, 1vw, 16px);
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 32ch;
+}

@@ -1,0 +1,53 @@
+.section {
+  min-height: 100vh;
+  width: 100%;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.label {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(12px, 1.1vw, 18px);
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+
+.title {
+  font-family: var(--font-bebas-neue), sans-serif;
+  font-size: clamp(60px, 10vw, 160px);
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin: 0;
+}
+
+.titleLine {
+  display: block;
+}
+
+.titleLetter {
+  display: inline-block;
+}
+
+.email {
+  font-family: var(--font-jura), sans-serif;
+  font-size: clamp(14px, 1.4vw, 22px);
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+
+.email:hover {
+  color: #ffffff;
+}

@@ -1,125 +1,218 @@
 "use client";
 
-import { Suspense, useRef, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
+import gsap from "gsap";
 import ChairModel from "./ChairModel";
+import styles from "../styles/Hero.module.css";
+
+const specs = [
+  { label: "Frame material:", value: "Powder-coated steel frame" },
+  { label: "Upholstery:", value: "Premium wool-blend fabric" },
+  { label: "Filling:", value: "Eco-friendly high-density foam" },
+  { label: "Design:", value: "Architectural sculptural silhouette" },
+];
 
 export default function Hero() {
-  // Normalized mouse coords in range [-1, 1].
-  // Stored in a ref so updating them never re-renders the React tree.
+  const canvasWrapperRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const modernifyRef = useRef<HTMLSpanElement>(null);
+  const chairRef = useRef<HTMLSpanElement>(null);
+  const fornitureRef = useRef<HTMLSpanElement>(null);
+  const specsRef = useRef<HTMLDivElement>(null);
+  const labelRefs = useRef<HTMLSpanElement[]>([]);
+  const valueRefs = useRef<HTMLSpanElement[]>([]);
+  const priceRef = useRef<HTMLSpanElement>(null);
+  const buyBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      modernifyRef.current,
+      { y: "100%", opacity: 0 },
+      { y: "0%", opacity: 1, duration: 1.8, ease: "power4.out", delay: 0.5 },
+    );
+    gsap.fromTo(
+      chairRef.current,
+      { y: "-100%", opacity: 0 },
+      { y: "0%", opacity: 1, duration: 1.8, ease: "power4.out", delay: 0.8 },
+    );
+    gsap.fromTo(
+      fornitureRef.current,
+      { x: "-100%", opacity: 0 },
+      { x: "0%", opacity: 1, duration: 1.4, ease: "power4.out", delay: 1.4 },
+    );
+    gsap.fromTo(
+      specsRef.current,
+      { y: "80px", x: "-50px", opacity: 0, rotation: -4 },
+      {
+        y: "0px",
+        x: "0px",
+        opacity: 1,
+        rotation: 0,
+        duration: 1.8,
+        ease: "power3.out",
+        delay: 0.6,
+      },
+    );
+    gsap.fromTo(
+      labelRefs.current,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.15,
+        delay: 1.2,
+      },
+    );
+    gsap.fromTo(
+      valueRefs.current,
+      { x: "-30px", opacity: 0 },
+      {
+        x: "0px",
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.15,
+        delay: 1.3,
+      },
+    );
+    gsap.fromTo(
+      priceRef.current?.querySelectorAll(`.${styles.priceChar}`) ?? [],
+      { opacity: 0, y: "10px" },
+      {
+        opacity: 1,
+        y: "0px",
+        duration: 0.4,
+        stagger: 0.1,
+        ease: "power2.out",
+        delay: 1.8,
+      },
+    );
+    gsap.fromTo(
+      buyBtnRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.8, ease: "power2.out", delay: 2.1 },
+    );
+    gsap.fromTo(
+      canvasWrapperRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 1.5, ease: "power2.out", delay: 0.8 },
+    );
+  }, []);
 
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
-      // Normalize to [-1, 1] relative to the window center
       mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      // Invert Y so moving the mouse up tilts the model back (positive X rotation)
       mouseRef.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
     }
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    // Full-viewport hero wrapper with dark gradient background
-    <section
-      className="relative w-full overflow-hidden"
-      style={{ height: "100dvh" }}
-    >
-      {/* Dark gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(to top, #6b0000, #8b0000, #a50000)",
-        }}
-      />
-
-      {/* Grain / noise texture overlay via inline SVG filter.
-          The feTurbulence generates a static noise pattern and
-          feColorMatrix brings it to a near-transparent grey so the
-          grain is present but not distracting. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{ opacity: 0.18 }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
-          className="absolute inset-0"
-        >
-          <filter id="grain">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.65"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#grain)" />
-        </svg>
+    <div className={styles.wrapper}>
+      <div className={styles.topVignette} />
+      <div className={styles.stripes} />
+      <span className={styles.watermark}>CHAIR</span>
+      <div className={styles.editorialTopLeft}>
+        <span>Collection No.01</span>
+        <span>SS 2025</span>
       </div>
-
-      {/* Three.js canvas — fills the entire hero section */}
-      <Canvas
-        shadows
-        className="absolute inset-0"
-        camera={{
-          // Perspective camera; fov tuned so the model fills the frame
-          // nicely on all screen sizes without clipping
-          fov: 45,
-          near: 0.1,
-          far: 100,
-          position: [0, 0, 5],
-        }}
-        // Transparent background so the CSS gradient shows through
-        gl={{ alpha: true, antialias: true }}
-        style={{ background: "transparent" }}
-      >
-        {/* Soft fill light from all directions */}
-        <ambientLight intensity={2.5} />
-
-        {/* Primary directional light — slightly above and to the left */}
-        <directionalLight position={[3, 4, 2]} intensity={2.4} />
-
-        {/* Subtle fill light from the opposite side to soften shadows */}
-        <directionalLight position={[-2, -1, -2]} intensity={0.6} />
-
-        <ambientLight intensity={2.5} />
-        <directionalLight
-          position={[5, 5, 5]}
-          intensity={2}
-          castShadow
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          shadow-camera-far={50}
-          shadow-camera-left={-10}
-          shadow-camera-right={10}
-          shadow-camera-top={10}
-          shadow-camera-bottom={-10}
-        />
-        <directionalLight position={[-5, 3, -5]} intensity={2} />
-        <pointLight position={[0, 4, 2]} intensity={3} color="#ffffff" />
-        <directionalLight position={[0, -5, 3]} intensity={1.2} />
-
-        <mesh
-          receiveShadow
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -1, 0]}
-        >
-          <planeGeometry args={[20, 20]} />
-          <shadowMaterial transparent opacity={0.3} />
-        </mesh>
-
-        {/* Wrap the model in Suspense so the canvas renders while the
-            GLB is still loading; fallback is null (blank canvas) */}
-        <Suspense fallback={null}>
-          <ChairModel mouseRef={mouseRef} />
-        </Suspense>
-      </Canvas>
-    </section>
+      <div className={styles.editorialTopRight}>
+        <span>Modernify Studio</span>
+        <span>Est. 2024</span>
+      </div>
+      <div className={styles.heading}>
+        <span ref={fornitureRef} className={styles.category}>
+          FORNITURE
+        </span>
+        <h1 className={styles.title}>
+          <span ref={modernifyRef} className={styles.titleTop}>
+            MODERNIFY
+          </span>
+          <span ref={chairRef} className={styles.titleBottom}>
+            CHAIR
+          </span>
+        </h1>
+      </div>
+      <div className={styles.content}>
+        <div ref={specsRef} className={styles.leftwrapper}>
+          <div className={styles.leftCol}>
+            <div className={styles.specs}>
+              {specs.map((spec, i) => (
+                <div key={i} className={styles.specRow}>
+                  <span
+                    ref={(el) => {
+                      if (el) labelRefs.current[i] = el;
+                    }}
+                    className={styles.label}
+                  >
+                    {spec.label}
+                  </span>
+                  <span
+                    ref={(el) => {
+                      if (el) valueRefs.current[i] = el;
+                    }}
+                    className={styles.value}
+                  >
+                    {spec.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className={styles.priceRow}>
+              <span ref={priceRef} className={styles.price}>
+                {"549$".split("").map((char, i) => (
+                  <span key={i} className={styles.priceChar}>
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <button ref={buyBtnRef} className={styles.buyButton}>
+                Show details/Buy
+              </button>
+            </div>
+          </div>
+        </div>
+        <div ref={canvasWrapperRef} className={styles.right3dCanvas}>
+          <Canvas
+            shadows
+            style={{ width: "100%", height: "100%", background: "transparent" }}
+            camera={{ fov: 45, near: 0.1, far: 100, position: [0, 0, 5] }}
+            gl={{ alpha: true, antialias: true }}
+          >
+            <ambientLight intensity={2.5} />
+            <directionalLight position={[3, 4, 2]} intensity={2.4} />
+            <directionalLight position={[-2, -1, -2]} intensity={0.6} />
+            <directionalLight
+              position={[3, 10, 3]}
+              intensity={2}
+              castShadow
+              shadow-mapSize-width={2048}
+              shadow-mapSize-height={2048}
+              shadow-camera-far={50}
+              shadow-camera-left={-6}
+              shadow-camera-right={6}
+              shadow-camera-top={6}
+              shadow-camera-bottom={-6}
+            />
+            <directionalLight position={[-5, 3, -5]} intensity={2} />
+            <pointLight position={[0, 4, 2]} intensity={3} color="#ffffff" />
+            <mesh
+              receiveShadow
+              rotation={[-Math.PI / 2, 0, 0]}
+              position={[-0.9, -0.7, 0]}
+            >
+              <planeGeometry args={[15, 15]} />
+              <shadowMaterial transparent opacity={0.1} />
+            </mesh>
+            <Suspense fallback={null}>
+              <ChairModel mouseRef={mouseRef} />
+            </Suspense>
+          </Canvas>
+        </div>
+      </div>
+    </div>
   );
 }
